@@ -8,7 +8,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <SidebarProvider>
       <AppSidebar />
       <main className="bg-gray-200 w-full h-full min-h-screen">
-        <div className="fixed flex items-center bg-gray-200 w-full h-16 px-4">
+        <div className="fixed flex items-center bg-gray-200 w-full h-16 px-4 z-50">
           <SidebarTrigger />
           <div className="flex items-center h-4">
             <Separator orientation="vertical" className="mx-4 bg-black" />
