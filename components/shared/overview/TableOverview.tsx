@@ -29,7 +29,7 @@ import Image from 'next/image';
 import DropdownStatus from './DropdownStatus';
 import DropdownView from './DropdownView';
 import { RepairData } from '@/types/repairType';
-import DropdownAscDsc from './DropdownAscDsc';
+import DropdownAscDsc from '../DropdownAscDsc';
 
 const repairRequestData: RepairData[] = [
   {
@@ -333,7 +333,7 @@ export function TableOverview() {
       </div>
       <div className="rounded-md border">
         <Table>
-          <TableHeader className="bg-[#3A57E8]">
+          <TableHeader className="bg-main">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id} className="border-b-0">
                 {headerGroup.headers.map((header) => {

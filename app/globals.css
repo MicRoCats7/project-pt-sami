@@ -3,6 +3,10 @@
 
 @custom-variant dark (&:is(.dark *));
 
+body {
+  @apply font-geist;
+}
+
 @theme inline {
   --color-main: #3A57E8;
   --color-text-main: #232D42;

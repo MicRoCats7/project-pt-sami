@@ -7,7 +7,7 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
-import { Filter, Search } from 'lucide-react';
+import { CirclePlus, Filter, Search } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import Image from 'next/image';
 
@@ -49,8 +49,8 @@ function DropdownStatus(props: any) {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button variant="outline" className="ml-auto px-3 py-2 h-10">
-                    <Filter size={18} className="mr-2" /> Status
+                <Button variant="outline" className="ml-auto px-3 py-2 h-10 bg-main text-white">
+                    <CirclePlus size={18} className="mr-2" /> Status
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-72 p-3">
