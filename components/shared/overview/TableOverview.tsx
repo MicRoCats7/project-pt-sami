@@ -13,17 +13,9 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { ArrowUpDown, CirclePlus, Files, RefreshCcw } from 'lucide-react';
-
+import { Files, RefreshCcw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+
 import { Input } from '@/components/ui/input';
 import {
   Table,
@@ -34,17 +26,10 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import Image from 'next/image';
-
-export type RepairData = {
-  no_urut: number;
-  carline: string;
-  prod_no_display: string;
-  kerusakan_utama: string;
-  kerusakan_id: string;
-  status: 'Belum Ditangani' | 'Sedang Proses' | 'Selesai' | 'Terlambat (LL Notified)' | 'Dibatalkan';
-  waktu_request: string;
-  pic: string;
-};
+import DropdownStatus from './DropdownStatus';
+import DropdownView from './DropdownView';
+import { RepairData } from '@/types/repairType';
+import DropdownAscDsc from './DropdownAscDsc';
 
 const repairRequestData: RepairData[] = [
   {
@@ -191,6 +176,7 @@ const getPicBadgeStyle = (pic: string) => {
     "N/R": 'border-2 border-blue-500 bg-white',
     SEP: 'border-2 border-red-300 bg-white',
     EAN: 'border-2 border-blue-500 bg-white',
+    SYS: 'border-2 border-gray-500 bg-white',
   };
   const textColors: { [key: string]: string } = {
     UZI: 'text-blue-500',
@@ -198,6 +184,7 @@ const getPicBadgeStyle = (pic: string) => {
     "N/R": 'text-blue-500',
     SEP: 'text-red-300',
     EAN: 'text-blue-500',
+    SYS: 'text-gray-500',
   };
   const bgColor = colors[pic.toUpperCase()] || 'bg-gray-400';
   const textColor = textColors[pic.toUpperCase()] || 'text-white';
@@ -205,15 +192,16 @@ const getPicBadgeStyle = (pic: string) => {
 };
 
 
+
 export const columns: ColumnDef<RepairData>[] = [
   {
     accessorKey: 'no_urut',
     header: ({ column }) => (
       <div className="flex items-center justify-center">
-        <Button variant="ghost" className="text-white hover:bg-blue-700 hover:text-white p-1 h-auto" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
-          NO
-          <ArrowUpDown className="ml-2 h-3 w-3" />
-        </Button>
+        <DropdownAscDsc
+          title="NO"
+          column={column}
+        />
       </div>
     ),
     cell: ({ row }) => <div className="text-center font-medium">{row.getValue('no_urut')}</div>,
@@ -232,11 +220,11 @@ export const columns: ColumnDef<RepairData>[] = [
   {
     accessorKey: 'kerusakan_utama',
     header: ({ column }) => (
-      <div className="text-left">
-        <Button variant="ghost" className="text-white hover:bg-blue-700 hover:text-white p-1 h-auto text-left justify-start w-full" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
-          KERUSAKAN
-          <ArrowUpDown className="ml-2 h-3 w-3" />
-        </Button>
+      <div className="text-left w-full">
+        <DropdownAscDsc
+          title="KERUSAKAN"
+          column={column}
+        />
       </div>
     ),
     cell: ({ row }) => (
@@ -252,22 +240,26 @@ export const columns: ColumnDef<RepairData>[] = [
   {
     accessorKey: 'status',
     header: () => <div className="text-left text-white">STATUS</div>,
-    cell: ({ row }) => {
-      return getStatusDisplay(row.getValue('status'));
+    cell: ({ row }) => getStatusDisplay(row.getValue('status')),
+    filterFn: (row, columnId, filterValue) => {
+      if (filterValue == null || (Array.isArray(filterValue) && filterValue.length === 0)) {
+        return true;
+      }
+      if (Array.isArray(filterValue)) {
+        const rowValue = row.getValue(columnId);
+        return filterValue.includes(rowValue);
+      }
+      return true;
     },
   },
   {
     accessorKey: 'waktu_request',
     header: ({ column }) => (
       <div className="text-left">
-        <Button
-          variant="ghost"
-          className="text-white hover:bg-blue-700 hover:text-white p-1 h-auto text-left justify-start w-full"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          WAKTU REQUEST
-          <ArrowUpDown className="ml-2 h-3 w-3" />
-        </Button>
+        <DropdownAscDsc
+          title="WAKTU REQUEST"
+          column={column}
+        />
       </div>
     ),
     cell: ({ row }) => <div className="text-left lowercase font-medium">{row.getValue('waktu_request')}</div>,
@@ -330,60 +322,13 @@ export function TableOverview() {
             onChange={(event) => table.getColumn('kerusakan_utama')?.setFilterValue(event.target.value)}
             className="h-10 w-64"
           />
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="ml-auto text-white bg-[#3A57E8] hover:bg-[#304ac8] px-3 py-2 h-10">
-                <CirclePlus size={18} className="mr-2" /> Status
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Toggle Kolom</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              {table
-                .getAllColumns()
-                .filter((column) => column.getCanHide())
-                .map((column) => {
-                  const headerDef = column.columnDef.header;
-                  let columnDisplayName = column.id;
-                  if (typeof headerDef === 'string') {
-                    columnDisplayName = headerDef;
-                  } else if (typeof headerDef === 'function') {
-                    const headerContext = table.getHeaderGroups()[0]?.headers.find(h => h.id === column.id)?.getContext();
-                    if (headerContext) {
-                      const renderedHeader = flexRender(headerDef, headerContext);
-                      if (typeof renderedHeader === 'string') {
-                        columnDisplayName = renderedHeader;
-                      } else if (
-                        React.isValidElement(renderedHeader) &&
-                        typeof renderedHeader.props === 'object' &&
-                        renderedHeader.props !== null &&
-                        'children' in renderedHeader.props &&
-                        renderedHeader.props.children
-                      ) {
-                        const children = (renderedHeader.props as { children?: React.ReactNode }).children;
-                        if (typeof children === 'string') columnDisplayName = children;
-                        else if (Array.isArray(children) && typeof children[0] === 'string') columnDisplayName = children[0];
-                      }
-                    }
-                  }
-
-                  return (
-                    <DropdownMenuCheckboxItem
-                      key={column.id}
-                      className="capitalize"
-                      checked={column.getIsVisible()}
-                      onCheckedChange={(value) => column.toggleVisibility(!!value)}
-                    >
-                      {column.id === "kerusakan_utama" ? "Kerusakan" :
-                        column.id === "prod_no_display" ? "Prod No" :
-                          column.id === "no_urut" ? "NO" :
-                            column.id === "waktu_request" ? "Waktu Request" :
-                              column.id.replace(/_/g, ' ')}
-                    </DropdownMenuCheckboxItem>
-                  );
-                })}
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <DropdownStatus
+            table={table}
+            repairRequestData={repairRequestData}
+          />
+          <DropdownView
+            table={table}
+          />
         </div>
       </div>
       <div className="rounded-md border">
@@ -421,10 +366,10 @@ export function TableOverview() {
                     <TableCell
                       key={cell.id}
                       className={
-                        `py-3 text-sm align-middle` + // align-middle ditambahkan
+                        `py-3 text-sm align-middle` +
                         (cell.column.id === 'no_urut' ? ' pl-2' : ' pl-1') +
-                        (cell.column.id === 'pic' || cell.column.id === 'status' ? '' : ' pr-1') + // Hapus pr-1 untuk pic dan status agar justify-center bekerja baik
-                        (cell.column.id === 'status' ? ' text-left' : '') // Status dibuat rata kiri di dalam sel nya
+                        (cell.column.id === 'pic' || cell.column.id === 'status' ? '' : ' pr-1') +
+                        (cell.column.id === 'status' ? ' text-left' : '')
                       }
                       style={{ width: cell.column.getSize() !== 150 ? `${cell.column.getSize()}px` : undefined }}
                     >
