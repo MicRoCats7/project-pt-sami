@@ -15,7 +15,7 @@ function DropdownView(props: any) {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button variant="outline" className="ml-auto text-white bg-[#3A57E8] hover:bg-[#304ac8] px-3 py-2 h-10">
+                <Button variant="outline" className="ml-auto text-white bg-main px-3 py-2 h-10">
                     <CirclePlus size={18} className="mr-2" /> View
                 </Button>
             </DropdownMenuTrigger>
