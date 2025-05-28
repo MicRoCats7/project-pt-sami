@@ -35,7 +35,7 @@ const items = [
             },
             {
                 title: 'Tracking ID',
-                url: '/trackingId',
+                url: '/trackingid',
                 icon: '/assets/icon_sidebar/icon_trackingId.svg',
             },
         ],
