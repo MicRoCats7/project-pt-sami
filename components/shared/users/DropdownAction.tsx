@@ -10,7 +10,7 @@ import { MoreHorizontal } from 'lucide-react'
 function DropdownAction() {
     return (
         <DropdownMenu>
-            <DropdownMenuTrigger>
+            <DropdownMenuTrigger className='cursor-pointer'>
                 <MoreHorizontal className="h-5 w-5 text-gray-500" />
             </DropdownMenuTrigger>
             <DropdownMenuContent>

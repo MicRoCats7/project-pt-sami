@@ -23,7 +23,7 @@ import {
 function DialogAddData() {
     return (
         <Dialog>
-            <DialogTrigger className="h-10 bg-blue-600 hover:bg-blue-700 text-sm rounded-[8px] py-2 px-12 text-white font-medium">
+            <DialogTrigger className="h-10 bg-blue-600 hover:bg-blue-700 text-sm rounded-[8px] py-2 px-12 text-white font-medium cursor-pointer">
                 TAMBAH DATA
             </DialogTrigger>
             <DialogContent className="sm:max-w-[672px]">
