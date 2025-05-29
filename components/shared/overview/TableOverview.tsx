@@ -360,7 +360,10 @@ export function TableOverview() {
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && 'selected'}
-                  className="hover:bg-gray-50 border-b border-gray-200"
+                  className={
+                    `border-b border-gray-200 ` +
+                    (row.index % 2 === 0 ? 'bg-white' : 'bg-[#E2E5F5]')
+                  }
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell
