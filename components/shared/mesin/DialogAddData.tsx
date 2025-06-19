@@ -52,14 +52,14 @@ function DialogAddData() {
                         <Input id="namaMesinBaru" className="flex-1 text-sm rounded-l-none" />
                     </div>
                     <div className="flex items-center gap-2 w-full">
-                        <span className="font-inter font-medium text-base text-text-secondary w-1/3">Nama Mesin</span>
+                        <span className="font-inter font-medium text-base text-text-secondary w-1/3">No. Mesin</span>
                         <Select>
                             <SelectTrigger className="w-full">
-                                <SelectValue placeholder="Pilih Level" />
+                                <SelectValue placeholder="Pilih No. Mesin" />
                             </SelectTrigger>
                             <SelectContent>
                                 <SelectGroup>
-                                    <SelectLabel>Level</SelectLabel>
+                                    <SelectLabel>No. Mesin</SelectLabel>
                                     <SelectItem value="apple">SUPERVISOR</SelectItem>
                                     <SelectItem value="banana">LINE LEADER</SelectItem>
                                     <SelectItem value="blueberry">TEKNISI</SelectItem>
@@ -72,14 +72,14 @@ function DialogAddData() {
                         <Input id="namaMesinBaru" className="flex-1 text-sm rounded-l-none" />
                     </div>
                     <div className="flex items-center gap-2 w-full">
-                        <span className="font-inter font-medium text-base text-text-secondary w-1/3">Nama Mesin</span>
+                        <span className="font-inter font-medium text-base text-text-secondary w-1/3">Lokasi</span>
                         <Select>
                             <SelectTrigger className="w-full">
-                                <SelectValue placeholder="Pilih Level" />
+                                <SelectValue placeholder="Pilih Lokasi" />
                             </SelectTrigger>
                             <SelectContent>
                                 <SelectGroup>
-                                    <SelectLabel>Level</SelectLabel>
+                                    <SelectLabel>Lokasi</SelectLabel>
                                     <SelectItem value="apple">SUPERVISOR</SelectItem>
                                     <SelectItem value="banana">LINE LEADER</SelectItem>
                                     <SelectItem value="blueberry">TEKNISI</SelectItem>
@@ -92,14 +92,14 @@ function DialogAddData() {
                         <Input id="namaMesinBaru" className="flex-1 text-sm rounded-l-none" />
                     </div>
                     <div className="flex items-center gap-2 w-full">
-                        <span className="font-inter font-medium text-base text-text-secondary w-1/3">Nama Mesin</span>
+                        <span className="font-inter font-medium text-base text-text-secondary w-1/3">Carline</span>
                         <Select>
                             <SelectTrigger className="w-full">
-                                <SelectValue placeholder="Pilih Level" />
+                                <SelectValue placeholder="Pilih Carline" />
                             </SelectTrigger>
                             <SelectContent>
                                 <SelectGroup>
-                                    <SelectLabel>Level</SelectLabel>
+                                    <SelectLabel>Carline</SelectLabel>
                                     <SelectItem value="apple">SUPERVISOR</SelectItem>
                                     <SelectItem value="banana">LINE LEADER</SelectItem>
                                     <SelectItem value="blueberry">TEKNISI</SelectItem>
