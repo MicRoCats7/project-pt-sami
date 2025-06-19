@@ -1,9 +1,11 @@
 import {
     Sidebar,
     SidebarContent,
+    SidebarFooter,
     SidebarGroup,
     SidebarGroupContent,
     SidebarGroupLabel,
+    SidebarHeader,
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem,
@@ -12,6 +14,9 @@ import React from "react"
 import Image from "next/image"
 import { Separator } from "../ui/separator";
 import Link from "next/link";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu";
+import { ChevronDown } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 // Menu items.
 const items = [
@@ -95,6 +100,22 @@ const items = [
 export function AppSidebar() {
     return (
         <Sidebar collapsible="icon">
+            <SidebarHeader>
+                <SidebarMenu>
+                    <SidebarMenuItem className="flex items-center gap-2">
+                        <Image
+                            src="/assets/icon_sidebar/logo.svg"
+                            alt="Logo"
+                            width={32}
+                            height={32}
+                        />
+                        <div className="flex flex-col">
+                            <span className="font-semibold text-lg text-black leading-4">MRO PT SAMI</span>
+                            <span className="font-normal text-xs text-black">Enterprise</span>
+                        </div>
+                    </SidebarMenuItem>
+                </SidebarMenu>
+            </SidebarHeader>
             <SidebarContent>
                 <SidebarGroup>
                     {items.map((item) => (
@@ -132,6 +153,27 @@ export function AppSidebar() {
                     ))}
                 </SidebarGroup>
             </SidebarContent>
+            <SidebarFooter>
+                <SidebarMenu>
+                    <SidebarMenuItem>
+                        <SidebarMenuButton
+                            size="lg"
+                            className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+                        >
+                            <Avatar className="h-8 w-8 rounded-lg">
+                                <AvatarImage src="https://github.com/shadcn.png" alt="name" />
+                                <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                            </Avatar>
+                            <div className="grid flex-1 text-left text-sm leading-tight">
+                                <span className="truncate font-semibold text-sm text-black">Rangga Alrasya</span>
+                                <span className="text-normal text-[#FEBD01] truncate text-xs">
+                                    Supervisor
+                                </span>
+                            </div>
+                        </SidebarMenuButton>
+                    </SidebarMenuItem>
+                </SidebarMenu>
+            </SidebarFooter>
         </Sidebar>
     );
 }
