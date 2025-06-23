@@ -29,6 +29,7 @@ import DropdownStatus from './DropdownStatus ';
 import DropdownLevel from './DropdownLevel';
 import { UserData } from '@/types/userDataType';
 import DropdownAction from './DropdownAction';
+import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-react';
 
 const sampleUserData: UserData[] = [
   { id: 1, no_urut: 1, nik: '00046', nama: 'Indra Hermawan', status_user: 'Aktif', kode: 'JHN', level: 'SUPERVISOR' },
@@ -262,16 +263,65 @@ export function TableUsers() {
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="flex-1 text-sm text-gray-500">
-          {table.getFilteredSelectedRowModel().rows.length} dari {table.getFilteredRowModel().rows.length} baris dipilih.
-        </div>
-        <div className="space-x-2">
-          <Button variant="outline" size="sm" onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
-            Sebelumnya
+      <div className="flex justify-between items-center pt-4">
+        <p className="text-sm text-muted-foreground">
+          Menampilkan {table.getRowModel().rows.length === 0
+            ? 0
+            : table.getState().pagination.pageIndex * table.getState().pagination.pageSize + 1}
+          {" - "}
+          {table.getRowModel().rows.length === 0
+            ? 0
+            : Math.min(
+              (table.getState().pagination.pageIndex + 1) * table.getState().pagination.pageSize,
+              table.getFilteredRowModel().rows.length
+            )}
+          {" dari "}
+          {table.getFilteredRowModel().rows.length} data
+        </p>
+        <div className="flex gap-2">
+          <Button
+            size="icon"
+            onClick={() => table.setPageIndex(0)}
+            disabled={!table.getCanPreviousPage()}
+            className={`rounded-md transition-colors ${!table.getCanPreviousPage()
+              ? "bg-blue-300 text-white cursor-not-allowed"
+              : "bg-blue-600 text-white hover:bg-blue-700"
+              }`}
+          >
+            <ChevronsLeft className="w-5 h-5" />
           </Button>
-          <Button variant="outline" size="sm" onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
-            Berikutnya
+          <Button
+            size="icon"
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+            className={`rounded-md transition-colors ${!table.getCanPreviousPage()
+              ? "bg-blue-300 text-white cursor-not-allowed"
+              : "bg-blue-600 text-white hover:bg-blue-700"
+              }`}
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </Button>
+          <Button
+            size="icon"
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+            className={`rounded-md transition-colors ${!table.getCanNextPage()
+              ? "bg-blue-300 text-white cursor-not-allowed"
+              : "bg-blue-600 text-white hover:bg-blue-700"
+              }`}
+          >
+            <ChevronRight className="w-5 h-5" />
+          </Button>
+          <Button
+            size="icon"
+            onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+            disabled={!table.getCanNextPage()}
+            className={`rounded-md transition-colors ${!table.getCanNextPage()
+              ? "bg-blue-300 text-white cursor-not-allowed"
+              : "bg-blue-600 text-white hover:bg-blue-700"
+              }`}
+          >
+            <ChevronsRight className="w-5 h-5" />
           </Button>
         </div>
       </div>
