@@ -27,6 +27,7 @@ import {
 import DropdownAscDsc from '../DropdownAscDsc';
 import DropdownAction from '../mesin/DropdownAction';
 import { SparePart } from '@/types/sparePart';
+import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-react';
 
 const sampleSparePart: SparePart[] = [
     { no_urut: 1, location: 'R4-1-ID', part_name: 'ANVIL', part_no: '70091868KIC', part_no_sami: '-', kategori: 'TOOLING & CRIMPER', spec: 'APPLICATOR', nama_mesin: 'APPLICATOR' },
@@ -214,16 +215,64 @@ export function TableSparePart() {
                     </TableBody>
                 </Table>
             </div>
-            <div className="flex items-center justify-end space-x-2 py-4">
-                <div className="flex-1 text-sm text-gray-500">
-                    {table.getFilteredSelectedRowModel().rows.length} dari {table.getFilteredRowModel().rows.length} baris dipilih.
-                </div>
-                <div className="space-x-2">
-                    <Button variant="outline" size="sm" onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
-                        Sebelumnya
+            <div className="flex justify-between items-center pt-4">
+                <p className="text-sm text-muted-foreground">
+                    Menampilkan {table.getPaginationRowModel().rows.length > 0
+                        ? (table.getState().pagination.pageIndex * table.getState().pagination.pageSize) + 1
+                        : 0
+                    }
+                    {" - "}
+                    {table.getPaginationRowModel().rows.length > 0
+                        ? (table.getState().pagination.pageIndex * table.getState().pagination.pageSize) + table.getPaginationRowModel().rows.length
+                        : 0
+                    }
+                    {" dari "}
+                    {table.getFilteredRowModel().rows.length} data
+                </p>
+                <div className="flex gap-2">
+                    <Button
+                        size="icon"
+                        onClick={() => table.setPageIndex(0)}
+                        disabled={!table.getCanPreviousPage()}
+                        className={`rounded-md transition-colors ${!table.getCanPreviousPage()
+                            ? "bg-blue-300 text-white cursor-not-allowed"
+                            : "bg-blue-600 text-white hover:bg-blue-700"
+                            }`}
+                    >
+                        <ChevronsLeft className="w-5 h-5" />
                     </Button>
-                    <Button variant="outline" size="sm" onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
-                        Berikutnya
+                    <Button
+                        size="icon"
+                        onClick={() => table.previousPage()}
+                        disabled={!table.getCanPreviousPage()}
+                        className={`rounded-md transition-colors ${!table.getCanPreviousPage()
+                            ? "bg-blue-300 text-white cursor-not-allowed"
+                            : "bg-blue-600 text-white hover:bg-blue-700"
+                            }`}
+                    >
+                        <ChevronLeft className="w-5 h-5" />
+                    </Button>
+                    <Button
+                        size="icon"
+                        onClick={() => table.nextPage()}
+                        disabled={!table.getCanNextPage()}
+                        className={`rounded-md transition-colors ${!table.getCanNextPage()
+                            ? "bg-blue-300 text-white cursor-not-allowed"
+                            : "bg-blue-600 text-white hover:bg-blue-700"
+                            }`}
+                    >
+                        <ChevronRight className="w-5 h-5" />
+                    </Button>
+                    <Button
+                        size="icon"
+                        onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+                        disabled={!table.getCanNextPage()}
+                        className={`rounded-md transition-colors ${!table.getCanNextPage()
+                            ? "bg-blue-300 text-white cursor-not-allowed"
+                            : "bg-blue-600 text-white hover:bg-blue-700"
+                            }`}
+                    >
+                        <ChevronsRight className="w-5 h-5" />
                     </Button>
                 </div>
             </div>
