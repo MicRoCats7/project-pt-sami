@@ -1,3 +1,5 @@
+"use client"
+
 import {
     Sidebar,
     SidebarContent,
@@ -15,6 +17,8 @@ import Image from "next/image"
 import { Separator } from "../ui/separator";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 // Menu items.
 const items = [
@@ -96,6 +100,15 @@ const items = [
 ];
 
 export function AppSidebar() {
+    const pathname = usePathname();
+
+    const isActiveRoute = (url: any) => {
+        if (url === '/') {
+            return pathname === '/';
+        }
+        return pathname.startsWith(url);
+    };
+
     return (
         <Sidebar collapsible="icon">
             <SidebarHeader>
@@ -121,29 +134,48 @@ export function AppSidebar() {
                             <SidebarGroupLabel className="font-semibold text-base text-[#8A92A6B2]">{item.title}</SidebarGroupLabel>
                             <SidebarGroupContent>
                                 <SidebarMenu>
-                                    {item.subItems?.map((subItem) => (
-                                        <SidebarMenuItem key={subItem.title}>
-                                            <SidebarMenuButton asChild>
-                                                <Link href={subItem.url}>
-                                                    <Image
-                                                        src={subItem.icon}
-                                                        alt={subItem.title}
-                                                        width={
-                                                            subItem.title === "Mesin" ||
-                                                                subItem.title === "User"
-                                                                ? 15
-                                                                : subItem.title === "Bantuan / Dukungan"
-                                                                    ? 20
-                                                                    : 24
-                                                        }
-                                                        height={15}
-                                                        className="mr-3"
-                                                    />
-                                                    <span className="font-normal text-base text-[#8A92A6]">{subItem.title}</span>
-                                                </Link>
-                                            </SidebarMenuButton>
-                                        </SidebarMenuItem>
-                                    ))}
+                                    {item.subItems?.map((subItem) => {
+                                        const isActive = isActiveRoute(subItem.url);
+                                        return (
+                                            <SidebarMenuItem key={subItem.title}>
+                                                <SidebarMenuButton
+                                                    asChild
+                                                    className={cn(
+                                                        "transition-all duration-200",
+                                                        isActive && "bg-blue-50 border-r-4 border-r-blue-500 text-blue-700 hover:bg-blue-100"
+                                                    )}
+                                                >
+                                                    <Link href={subItem.url}>
+                                                        <Image
+                                                            src={subItem.icon}
+                                                            alt={subItem.title}
+                                                            width={
+                                                                subItem.title === "Mesin" ||
+                                                                    subItem.title === "User"
+                                                                    ? 15
+                                                                    : subItem.title === "Bantuan / Dukungan"
+                                                                        ? 20
+                                                                        : 24
+                                                            }
+                                                            height={15}
+                                                            className={cn(
+                                                                "mr-3 transition-all duration-200",
+                                                                isActive && "brightness-75"
+                                                            )}
+                                                        />
+                                                        <span className={cn(
+                                                            "font-normal text-base transition-all duration-200",
+                                                            isActive
+                                                                ? "text-blue-700 font-semibold"
+                                                                : "text-[#8A92A6]"
+                                                        )}>
+                                                            {subItem.title}
+                                                        </span>
+                                                    </Link>
+                                                </SidebarMenuButton>
+                                            </SidebarMenuItem>
+                                        );
+                                    })}
                                     <Separator className='mb-3 mt-2 bg-[#E9ECEF]' />
                                 </SidebarMenu>
                             </SidebarGroupContent>
