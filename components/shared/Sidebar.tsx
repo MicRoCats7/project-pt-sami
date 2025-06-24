@@ -79,7 +79,7 @@ const items = [
         ],
     },
     {
-        title: 'Settings',
+        title: 'Pengaturan',
         subItems: [
             {
                 title: 'Pengaturan',

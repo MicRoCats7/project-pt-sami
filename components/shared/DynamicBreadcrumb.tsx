@@ -31,7 +31,7 @@ const items = [
     ],
   },
   {
-    title: 'Settings',
+    title: 'Pengaturan',
     subItems: [
       { title: 'Pengaturan', url: '/pengaturan' },
       { title: 'Bantuan / Dukungan', url: '/bantuan' },
