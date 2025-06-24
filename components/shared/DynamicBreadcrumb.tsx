@@ -14,7 +14,7 @@ const items = [
     title: 'MRO Tools',
     subItems: [
       { title: 'Permintaan', url: '/permintaan' },
-      { title: 'Tracking ID', url: '/trackingId' },
+      { title: 'Tracking ID', url: '/trackingid' },
     ],
   },
   {

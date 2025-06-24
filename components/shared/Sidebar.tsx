@@ -14,8 +14,6 @@ import React from "react"
 import Image from "next/image"
 import { Separator } from "../ui/separator";
 import Link from "next/link";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu";
-import { ChevronDown } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 // Menu items.
