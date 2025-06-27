@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
-import React from "react"
-import { Button } from "@/components/ui/button"
-import DialogAddData from "@/components/shared/grouping-problem/DialogAddData"
-import CardGroupingProblem from "@/components/shared/grouping-problem/cardGroupingProblem"
-import ExportDialog from "@/components/shared/grouping-problem/ExportDialog";
+import React from "react";
+import { Button } from "@/components/ui/button";
+import DialogAddData from "@/components/shared/grouping-problem/DialogAddData";
+import CardGroupingProblem from "@/components/shared/grouping-problem/cardGroupingProblem";
+import ExportDialog from "@/components/shared/ExportDialog";
 
 function GroupingProblem() {
   return (
@@ -22,7 +22,7 @@ function GroupingProblem() {
       {/* Komponen grid */}
       <CardGroupingProblem />
     </section>
-  )
+  );
 }
 
-export default GroupingProblem
+export default GroupingProblem;
