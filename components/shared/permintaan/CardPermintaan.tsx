@@ -1,33 +1,150 @@
 "use client";
 
-import { Calendar } from '@/components/ui/calendar'
-import { Card, CardContent } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select'
-import React from 'react'
+import { Calendar } from "@/components/ui/calendar";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+} from "@/components/ui/popover";
+import {
+  Command,
+  CommandInput,
+  CommandItem,
+  CommandGroup,
+  CommandEmpty,
+  CommandList,
+} from "@/components/ui/command";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { ChevronDown, Check } from "lucide-react";
+import React from "react";
+
+const kerusakanOptions = [
+  "Bellmouth Bawah Besar",
+  "Bellmouth Bawah Kecil",
+  "Bellmouth Atas Besar",
+  "Bellmouth Atas Kecil",
+  "Belt Conveyor",
+  "Belt Conveyor 1",
+  "Belt Conveyor 2",
+  "Belt Conveyor 3",
+  "Belt Conveyor 4",
+  "Belt Conveyor 5",
+  "Belt Conveyor 6",
+  "Belt Conveyor 7",
+  "Belt Conveyor 8",
+  "Belt Conveyor 9",
+  "Belt Conveyor 10",
+  "Belt Conveyor 11",
+  "Belt Conveyor 12",
+  "Belt Conveyor 13",
+  "Belt Conveyor 14",
+  "Belt Conveyor 15",
+  "Belt Conveyor 16",
+  "Belt Conveyor 17",
+  "Belt Conveyor 18",
+  "Belt Conveyor 19",
+];
+
+const prodNoOptions = [
+  "AC90",
+  "AC91",
+  "AC92",
+  "AC93",
+  "AC94",
+  "AC95",
+  "AC96",
+  "AC97",
+  "AC98",
+  "AC99",
+];
+
+const SearchableSelect = ({
+  options,
+  placeholder,
+  selected,
+  setSelected,
+  className,
+}: {
+  options: string[];
+  placeholder: string;
+  selected: string;
+  setSelected: (val: string) => void;
+  className?: string;
+}) => {
+  const [open, setOpen] = React.useState(false);
+  return (
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <Button
+          variant="outline"
+          role="combobox"
+          aria-expanded={open}
+          className={cn("justify-between", className)}
+        >
+          {selected || placeholder}
+          <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+        </Button>
+      </PopoverTrigger>
+
+      {/* FIX: Hapus overflow dari PopoverContent */}
+      <PopoverContent className="w-full p-0">
+        <Command>
+          <CommandInput placeholder={`Cari ${placeholder.toLowerCase()}...`} />
+          <CommandEmpty>Tidak ditemukan</CommandEmpty>
+          <CommandGroup>
+            {/* FIX: Scroll hanya di sini */}
+            <CommandList className="max-h-[300px] overflow-y-auto">
+              {options.map((option) => (
+                <CommandItem
+                  key={option}
+                  value={option}
+                  onSelect={(currentValue) => {
+                    setSelected(currentValue);
+                    setOpen(false);
+                  }}
+                >
+                  <Check
+                    className={cn(
+                      "mr-2 h-4 w-4",
+                      selected === option ? "opacity-100" : "opacity-0"
+                    )}
+                  />
+                  {option}
+                </CommandItem>
+              ))}
+            </CommandList>
+          </CommandGroup>
+        </Command>
+      </PopoverContent>
+    </Popover>
+  );
+};
 
 export const CardPermintaan = () => {
-  const [date, setDate] = React.useState<Date | undefined>(new Date())
+  const [date, setDate] = React.useState<Date | undefined>(new Date());
+  const [selectedKerusakan, setSelectedKerusakan] = React.useState("");
+  const [selectedProdNo, setSelectedProdNo] = React.useState("");
 
   return (
     <Card className="w-full font-inter py-4">
       <CardContent className="flex flex-col items-center justify-center gap-4 w-full px-3">
         <div className="flex items-center gap-2 w-full">
-          <span className="font-inter font-medium text-base text-text-secondary mr-3.5">Kerusakan</span>
-          <Select>
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Pilih Kerusakan" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectLabel>Kerusakan</SelectLabel>
-                <SelectItem value="apple">AC90</SelectItem>
-                <SelectItem value="banana">AC90</SelectItem>
-                <SelectItem value="blueberry">AC90</SelectItem>
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-          <span className="font-inter font-medium text-base text-text-secondary mx-3">Atau</span>
+          <span className="font-inter font-medium text-base text-text-secondary mr-3.5">
+            Kerusakan
+          </span>
+          <SearchableSelect
+            options={kerusakanOptions}
+            placeholder="Pilih Kerusakan"
+            selected={selectedKerusakan}
+            setSelected={setSelectedKerusakan}
+            className="w-1/2"
+          />
+          <span className="font-inter font-medium text-base text-text-secondary mx-3">
+            Atau
+          </span>
           <Input
             className="w-full"
             placeholder="Tambahkan Kerusakan Baru..."
@@ -35,24 +152,22 @@ export const CardPermintaan = () => {
           />
         </div>
         <div className="flex items-center gap-10 w-full">
-          <span className="font-inter font-medium text-base text-text-secondary">Prod NO</span>
-          <Select>
-            <SelectTrigger className="w-1/4">
-              <SelectValue placeholder="Pilih Prod NO" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectLabel>Kerusakan</SelectLabel>
-                <SelectItem value="apple">AC90</SelectItem>
-                <SelectItem value="banana">AC90</SelectItem>
-                <SelectItem value="blueberry">AC90</SelectItem>
-              </SelectGroup>
-            </SelectContent>
-          </Select>
+          <span className="font-inter font-medium text-base text-text-secondary">
+            Prod NO
+          </span>
+          <SearchableSelect
+            options={prodNoOptions}
+            placeholder="Pilih Prod NO"
+            selected={selectedProdNo}
+            setSelected={setSelectedProdNo}
+            className="w-1/4"
+          />
         </div>
-        <div className='grid grid-cols-2 gap-5 w-full'>
-          <div className='flex items-center w-full'>
-            <span className="font-inter font-medium text-base text-text-secondary w-[35%]">Nama Mesin</span>
+        <div className="grid grid-cols-2 gap-5 w-full">
+          <div className="flex items-center w-full">
+            <span className="font-inter font-medium text-base text-text-secondary w-[35%]">
+              Nama Mesin
+            </span>
             <Input
               className="w-full bg-input/100"
               placeholder="Autofill"
@@ -60,8 +175,10 @@ export const CardPermintaan = () => {
               disabled
             />
           </div>
-          <div className='flex items-center w-full'>
-            <span className="font-inter font-medium text-base text-text-secondary w-[35%]">No Mesin</span>
+          <div className="flex items-center w-full">
+            <span className="font-inter font-medium text-base text-text-secondary w-[35%]">
+              No Mesin
+            </span>
             <Input
               className="w-full bg-input/100"
               placeholder="Autofill"
@@ -69,8 +186,10 @@ export const CardPermintaan = () => {
               disabled
             />
           </div>
-          <div className='flex items-center w-full'>
-            <span className="font-inter font-medium text-base text-text-secondary w-[35%]">Lokasi</span>
+          <div className="flex items-center w-full">
+            <span className="font-inter font-medium text-base text-text-secondary w-[35%]">
+              Lokasi
+            </span>
             <Input
               className="w-full bg-input/100"
               placeholder="Autofill"
@@ -78,8 +197,10 @@ export const CardPermintaan = () => {
               disabled
             />
           </div>
-          <div className='flex items-center w-full'>
-            <span className="font-inter font-medium text-base text-text-secondary w-[35%]">Carline</span>
+          <div className="flex items-center w-full">
+            <span className="font-inter font-medium text-base text-text-secondary w-[35%]">
+              Carline
+            </span>
             <Input
               className="w-full bg-input/100"
               placeholder="Autofill"
@@ -89,7 +210,9 @@ export const CardPermintaan = () => {
           </div>
         </div>
         <div className="flex items-center gap-10 w-full">
-          <span className="font-inter font-medium text-base text-text-secondary">Catatan</span>
+          <span className="font-inter font-medium text-base text-text-secondary">
+            Catatan
+          </span>
           <Input
             className="w-full"
             placeholder="Tambahkan Catatan (Opsional)"
@@ -97,7 +220,9 @@ export const CardPermintaan = () => {
           />
         </div>
         <div className="flex items-start gap-10 w-full">
-          <span className="font-inter font-medium text-base text-text-secondary">Tanggal</span>
+          <span className="font-inter font-medium text-base text-text-secondary">
+            Tanggal
+          </span>
           <div className="pointer-events-none opacity-60">
             <Calendar
               mode="single"
@@ -107,7 +232,18 @@ export const CardPermintaan = () => {
             />
           </div>
         </div>
+        <div className="flex items-start gap-10 w-full">
+          <span className="font-inter font-medium text-base text-text-secondary">
+            Waktu Permintaan diajakukan
+          </span>
+          <Input
+            className="w-full bg-input/100"
+            placeholder="Autofill"
+            type="text"
+            disabled
+          />
+        </div>
       </CardContent>
     </Card>
-  )
-}
+  );
+};
