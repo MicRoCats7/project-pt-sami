@@ -82,14 +82,6 @@ export default function ContentDetailTrackingID() {
             <Info label="No Mesin" value="AC95" note="Autofill" />
             <Info label="Lokasi" value="AC9PRA-14" note="Autofill" />
             <Info label="Carline" value="TOYOTA" note="Autofill" />
-            <Info
-              label="Prioritas"
-              value={
-                <span className="inline-flex items-center justify-center bg-[#FEBD01] text-white text-sm font-semibold rounded-full px-4 py-[1px] h-[27px] w-[97px]">
-                  Sedang
-                </span>
-              }
-            />
             <Info label="Waktu Permintaan" value="06:00" note="Autofill" />
             <Info
               label="Tanggal Permintaan"
