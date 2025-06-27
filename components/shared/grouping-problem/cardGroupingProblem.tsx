@@ -14,7 +14,6 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import ProblemDetailDialog from "./ProblemDetailDialog";
 
-
 const sampleProblemData: (GroupingProblem & { editedAt?: string | null })[] = [
     { id: 1, no_urut: 1, judul_kerusakan: "Kerusakan Mesin A", sub_judul: "Sub Judul A", uraian_deskripsi: "Deskripsi kerusakan mesin A yang perlu diperbaiki.", tanggal: "2025-06-01" },
   { id: 2, no_urut: 2, judul_kerusakan: "Kerusakan Mesin B", sub_judul: "Sub Judul B", uraian_deskripsi: "Deskripsi kerusakan mesin B yang perlu diperbaiki.", tanggal: "2025-06-02" },
@@ -85,7 +84,7 @@ export default function CardGroupingProblem() {
         placeholder="Cari kerusakan..."
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-        className="w-full md:max-w-sm"
+        className="w-full md:max-w-sm bg-white border border-gray-300 focus:border-blue-500 focus:ring-blue-500 transition-colors duration-200"
       />
 
       <AnimatePresence mode="wait">
@@ -140,6 +139,9 @@ export default function CardGroupingProblem() {
                         )
                       )
                     }
+                    onDelete={(deleted) =>
+                      setData((prev) => prev.filter((p) => p.id !== deleted.id))
+                    }
                   />
                 </CardContent>
               </Card>
@@ -150,7 +152,9 @@ export default function CardGroupingProblem() {
 
       <div className="flex justify-between items-center pt-4">
         <p className="text-sm text-muted-foreground">
-          Menampilkan {(page - 1) * itemsPerPage + 1} - {Math.min(page * itemsPerPage, filteredData.length)} dari {filteredData.length} data
+          Menampilkan {(page - 1) * itemsPerPage + 1} -{" "}
+          {Math.min(page * itemsPerPage, filteredData.length)} dari{" "}
+          {filteredData.length} data
         </p>
         <div className="flex gap-2">
           <Button

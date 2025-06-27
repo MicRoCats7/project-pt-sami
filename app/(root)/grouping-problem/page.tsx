@@ -19,7 +19,6 @@ function GroupingProblem() {
         </div>
       </div>
 
-      {/* Komponen grid */}
       <CardGroupingProblem />
     </section>
   );

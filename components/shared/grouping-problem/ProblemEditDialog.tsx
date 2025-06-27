@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { SaveIcon } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface Props {
   problem: GroupingProblem;
@@ -18,19 +18,38 @@ interface Props {
 
 export default function ProblemEditDialog({ problem }: Props) {
   const [form, setForm] = useState(problem);
+  const [open, setOpen] = useState(false);
+
+  // Cek apakah ada perubahan
+  const isChanged =
+    form.judul_kerusakan !== problem.judul_kerusakan ||
+    form.sub_judul !== problem.sub_judul ||
+    form.uraian_deskripsi !== problem.uraian_deskripsi;
 
   const handleSave = () => {
     console.log("Data disimpan:", form);
-    // TODO: trigger onUpdate jika pakai state global nanti
+    setOpen(false);
+  };
+
+  const handleOpenChange = (isOpen: boolean) => {
+    // Jika ingin menutup dialog & ada perubahan → konfirmasi
+    if (!isOpen && isChanged) {
+      const confirmClose = confirm(
+        "Perubahan belum disimpan. Yakin ingin keluar?"
+      );
+      if (!confirmClose) return; // Batal keluar
+    }
+
+    setOpen(isOpen);
+    if (isOpen) {
+      setForm(problem); // reset saat dibuka
+    }
   };
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
-        <Button
-          size="sm"
-          className="bg-blue-600 text-white hover:bg-blue-700"
-        >
+        <Button size="sm" className="bg-blue-600 text-white hover:bg-blue-700">
           <SaveIcon className="w-4 h-4 mr-1" />
           Edit
         </Button>
@@ -53,9 +72,7 @@ export default function ProblemEditDialog({ problem }: Props) {
             <label className="text-sm font-medium">Sub Judul</label>
             <Input
               value={form.sub_judul}
-              onChange={(e) =>
-                setForm({ ...form, sub_judul: e.target.value })
-              }
+              onChange={(e) => setForm({ ...form, sub_judul: e.target.value })}
             />
           </div>
           <div className="space-y-1">
