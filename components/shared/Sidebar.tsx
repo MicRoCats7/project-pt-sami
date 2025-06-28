@@ -124,7 +124,6 @@ export function AppSidebar() {
                             height={32}
                             className="flex-shrink-0"
                         />
-                        {/* Hide text when collapsed */}
                         <div className={cn(
                             "flex flex-col transition-all duration-300",
                             isCollapsed ? "opacity-0 w-0 overflow-hidden" : "opacity-100"
