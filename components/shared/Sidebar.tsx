@@ -11,6 +11,7 @@ import {
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem,
+    useSidebar,
 } from "@/components/ui/sidebar"
 import React from "react"
 import Image from "next/image"
@@ -101,6 +102,8 @@ const items = [
 
 export function AppSidebar() {
     const pathname = usePathname();
+    const { state } = useSidebar();
+    const isCollapsed = state === "collapsed";
 
     const isActiveRoute = (url: any) => {
         if (url === '/') {
@@ -119,10 +122,19 @@ export function AppSidebar() {
                             alt="Logo"
                             width={32}
                             height={32}
+                            className="flex-shrink-0"
                         />
-                        <div className="flex flex-col">
-                            <span className="font-semibold text-lg text-black leading-4">MRO PT SAMI</span>
-                            <span className="font-normal text-xs text-black">Enterprise</span>
+                        {/* Hide text when collapsed */}
+                        <div className={cn(
+                            "flex flex-col transition-all duration-300",
+                            isCollapsed ? "opacity-0 w-0 overflow-hidden" : "opacity-100"
+                        )}>
+                            <span className="font-semibold text-lg text-black leading-4 whitespace-nowrap">
+                                MRO PT SAMI
+                            </span>
+                            <span className="font-normal text-xs text-black whitespace-nowrap">
+                                Enterprise
+                            </span>
                         </div>
                     </SidebarMenuItem>
                 </SidebarMenu>
