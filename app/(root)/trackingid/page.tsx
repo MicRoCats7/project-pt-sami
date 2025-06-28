@@ -9,9 +9,11 @@ import {
   InputOTPSlot,
 } from "@/components/ui/input-otp";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 function TrackingId() {
   const [otp, setOtp] = useState("");
+  const router = useRouter();
 
   const handleCari = () => {
     if (!/^\d{10}$/.test(otp)) {
@@ -20,7 +22,7 @@ function TrackingId() {
     }
     // Lakukan proses pencarian di sini
     alert("Tracking ID valid: " + otp);
-    window.location.href = `/detail-trackingid`;
+    router.push(`/trackingid/${otp}`);
   };
 
   return (
